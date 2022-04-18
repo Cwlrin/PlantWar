@@ -71,19 +71,36 @@ function playerPlaneProto(imgSrc, x, y, speed) {
     this.init();
     this.moveLeft = function () {
         // 根据判断玩家的按键来执行事件进行移动
-        this.imgNode.style.left = parseInt(this.imgNode.style.left) - this.speed + "px";
+        if (this.imgNode.style.left == "-60px") {
+            this.imgNode.style.left = "620px";
+        } else {
+            this.imgNode.style.left = parseInt(this.imgNode.style.left) - this.speed + "px";
+        }
+
     }
     this.moveRight = function () {
         // 根据判断玩家的按键来执行事件进行移动
-        this.imgNode.style.left = parseInt(this.imgNode.style.left) + this.speed + "px";
+        if (this.imgNode.style.left == "620px") {
+            this.imgNode.style.left = "-60px";
+        } else {
+            this.imgNode.style.left = parseInt(this.imgNode.style.left) + this.speed + "px";
+        }
     }
     this.moveUp = function () {
         // 根据判断玩家的按键来执行事件进行移动
-        this.imgNode.style.top = parseInt(this.imgNode.style.top) - this.speed + "px";
+        if (this.imgNode.style.top == "0px") {
+            this.imgNode.style.top = "0px";
+        } else {
+            this.imgNode.style.top = parseInt(this.imgNode.style.top) - this.speed + "px";
+        }
     }
     this.moveDown = function () {
         // 根据判断玩家的按键来执行事件进行移动
-        this.imgNode.style.top = parseInt(this.imgNode.style.top) + this.speed + "px";
+        if (this.imgNode.style.top == "720px") {
+            this.imgNode.style.top = "720px";
+        } else {
+            this.imgNode.style.top = parseInt(this.imgNode.style.top) + this.speed + "px";
+        }
     }
     this.shoot = function () {
         // 根据判断玩家的按键来执行发射子弹的事件
@@ -146,3 +163,4 @@ function ctrlPlay() {
 
 // 30 毫秒监听一次是否按下键盘
 setInterval(ctrlPlay, 30);
+
