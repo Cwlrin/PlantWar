@@ -1,5 +1,11 @@
 var mainObj = document.getElementById("main");
+// 小飞机数组
 var smallPlaneArray = [];
+// 按键开关
+var upBtn = false;
+var dowmBtn = false;
+var leftBtn = false;
+var rightBtn = false;
 
 /**
  *  创建敌方小飞机
@@ -94,19 +100,49 @@ document.body.onkeydown = function () {
     // 使用控制台检测按键
     // console.log(e)
     if (e.keyCode == 37) {
-        // 左
-        player.moveLeft();
+        leftBtn = true;
     }
     if (e.keyCode == 38) {
-        // 上
-        player.moveUp();
+        upBtn = true;
     }
     if (e.keyCode == 39) {
-        // 右
-        player.moveRight();
+        rightBtn = true;
     }
     if (e.keyCode == 40) {
-        // 下
+        dowmBtn = true;
+    }
+}
+
+document.body.onkeyup = function () {
+    var e = window.event || arguments[0];
+    if (e.keyCode == 37) {
+        leftBtn = false;
+    }
+    if (e.keyCode == 38) {
+        upBtn = false;
+    }
+    if (e.keyCode == 39) {
+        rightBtn = false;
+    }
+    if (e.keyCode == 40) {
+        dowmBtn = false;
+    }
+}
+
+function ctrlPlay() {
+    if (leftBtn == true) {
+        player.moveLeft();
+    }
+    if (rightBtn == true) {
+        player.moveRight();
+    }
+    if (upBtn == true) {
+        player.moveUp();
+    }
+    if (dowmBtn == true) {
         player.moveDown();
     }
 }
+
+// 30 毫秒监听一次是否按下键盘
+setInterval(ctrlPlay, 30);

@@ -1,0 +1,13 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#main {
+    width: 600px;
+    height: 800px;
+    background: url("../images/background_1.png");
+    margin: 30px auto;
+    position: relative;
+    overflow: hidden;
+}
