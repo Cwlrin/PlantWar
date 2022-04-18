@@ -1,6 +1,8 @@
 var mainObj = document.getElementById("main");
 // 小飞机数组
 var smallPlaneArray = [];
+// 子弹数组
+var bullerArray = [];
 // 按键开关
 var upBtn = false;
 var dowmBtn = false;
@@ -105,6 +107,7 @@ function playerPlaneProto(imgSrc, x, y, speed) {
     this.shoot = function () {
         // 根据判断玩家的按键来执行发射子弹的事件
         var newBullet = new bulletProto("./images/bullet1.png", parseInt(this.imgNode.style.left) + 30, parseInt(this.imgNode.style.top) - 10, 10);
+        bullerArray.push(newBullet);
     }
 }
 
@@ -189,3 +192,18 @@ function bulletProto(imgSrc, x, y, speed) {
         this.imgNode.style.top = parseInt(this.imgNode.style.top) - this.speed + "px";
     }
 }
+
+/**
+ * 子弹移动
+ */
+function bulletMove() {
+    for (var i = 0; i < bullerArray.length; i++) {
+        bullerArray[i].move();
+        if (parseInt(bullerArray[i].imgNode.style.top) <= 10) {
+            mainObj.removeChild(smallPlaneArray[i].imgNode);
+            smallPlaneArray.splice(i, 1);
+        }
+    }
+}
+
+setInterval(bulletMove, 10);
