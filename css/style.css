@@ -11,3 +11,13 @@
     position: relative;
     overflow: hidden;
 }
+
+#titleScore {
+    font-size: 20px;
+    font-weight: bold;
+    position: absolute;
+    margin-top: 5px;
+    margin-left: 5px;
+    color: white;
+    z-index: 2;
+}

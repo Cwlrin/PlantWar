@@ -8,6 +8,9 @@ var upBtn = false;
 var dowmBtn = false;
 var leftBtn = false;
 var rightBtn = false;
+// 杀敌数
+var killNum = document.getElementById("killNum");
+var killScore = document.getElementById("killScore");
 
 /**
  *  创建敌方小飞机
@@ -247,6 +250,9 @@ function crashCheck() {
                     // 敌方小飞机替换文件路径
                     smallPlaneArray[i].imgNode.src = "./images/smallplaneboom.gif";
                     smallPlaneArray[i].isDead = true;
+                    // 杀敌积分
+                    killNum.innerHTML = parseInt(killNum.innerHTML) + 1;
+                    killScore.innerHTML = 2 * parseInt(killNum.innerHTML) - 1;
                 }
             }
         }
