@@ -20,6 +20,10 @@ function SmallPlaneProto(imgSrc, x, y, speed) {
     this.x = x;
     this.y = y;
     this.speed = speed;
+    // 存活状态
+    this.isDead = false;
+    // 敌方小飞机死亡倒计时
+    this.exTime = 30;
     this.init = function () {
         this.imgNode.src = this.imgSrc;
         this.imgNode.style.position = "absolute";
@@ -40,12 +44,25 @@ function createSmallPlane() {
 
 setInterval(createSmallPlane, 1000);
 
+/**
+ * 敌方小飞机移动
+ */
 function smallPlaneMove() {
     for (var i = 0; i < smallPlaneArray.length; i++) {
-        smallPlaneArray[i].move();
-        if (parseInt(smallPlaneArray[i].imgNode.style.top) >= 800) {
-            mainObj.removeChild(smallPlaneArray[i].imgNode);
-            smallPlaneArray.splice(i, 1);
+        if (smallPlaneArray[i].isDead == false) {
+            // 活着的时候才能移动
+            smallPlaneArray[i].move();
+            if (parseInt(smallPlaneArray[i].imgNode.style.top) >= 800) {
+                mainObj.removeChild(smallPlaneArray[i].imgNode);
+                smallPlaneArray.splice(i, 1);
+            }
+        } else {
+            // 死亡的时候倒计时每隔 50 毫秒 -1，从 30 减少到 0 的时候销毁当前小飞机
+            smallPlaneArray[i].exTime--;
+            if (smallPlaneArray[i].exTime == 0) {
+                mainObj.removeChild(smallPlaneArray[i].imgNode);
+                smallPlaneArray.splice(i, 1);
+            }
         }
     }
 }
@@ -222,13 +239,15 @@ function crashCheck() {
             var plTop = parseInt(smallPlaneArray[i].imgNode.style.top);
             // 飞机左边
             var plLeft = parseInt(smallPlaneArray[i].imgNode.style.left);
-
-            if (btLeft >= plLeft && btLeft <= (plLeft + 34) && btTop >= plTop && btTop < (plTop + 24)) {
-                mainObj.removeChild(bullerArray[j].imgNode);
-                // 碰撞之后移除子弹
-                bullerArray.splice(j, 1);
-                // 敌方小飞机替换文件路径
-                smallPlaneArray[i].imgNode.src="./images/smallplaneboom.gif";
+            if (smallPlaneArray[i].isDead == false) {
+                if (btLeft >= plLeft && btLeft <= (plLeft + 34) && btTop >= plTop && btTop < (plTop + 24)) {
+                    mainObj.removeChild(bullerArray[j].imgNode);
+                    // 碰撞之后移除子弹
+                    bullerArray.splice(j, 1);
+                    // 敌方小飞机替换文件路径
+                    smallPlaneArray[i].imgNode.src = "./images/smallplaneboom.gif";
+                    smallPlaneArray[i].isDead = true;
+                }
             }
         }
     }
