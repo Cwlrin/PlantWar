@@ -199,11 +199,40 @@ function bulletProto(imgSrc, x, y, speed) {
 function bulletMove() {
     for (var i = 0; i < bullerArray.length; i++) {
         bullerArray[i].move();
-        if (parseInt(bullerArray[i].imgNode.style.top) <= 10) {
-            mainObj.removeChild(smallPlaneArray[i].imgNode);
-            smallPlaneArray.splice(i, 1);
+        if (parseInt(bullerArray[i].imgNode.style.top) <= 20) {
+            mainObj.removeChild(bullerArray[i].imgNode);
+            bullerArray.splice(i, 1);
         }
     }
 }
 
 setInterval(bulletMove, 10);
+
+/**
+ * 碰撞函数
+ */
+function crashCheck() {
+    for (var i = 0; i < smallPlaneArray.length; i++) {
+        for (var j = 0; j < bullerArray.length; j++) {
+            // 子弹左边
+            var btLeft = parseInt(bullerArray[j].imgNode.style.left);
+            // 子弹顶部
+            var btTop = parseInt(bullerArray[j].imgNode.style.top);
+            // 飞机顶部
+            var plTop = parseInt(smallPlaneArray[i].imgNode.style.top);
+            // 飞机左边
+            var plLeft = parseInt(smallPlaneArray[i].imgNode.style.left);
+
+            if (btLeft >= plLeft && btLeft <= (plLeft + 34) && btTop >= plTop && btTop < (plTop + 24)) {
+                mainObj.removeChild(bullerArray[j].imgNode);
+                // 碰撞之后移除子弹
+                bullerArray.splice(j, 1);
+                // 敌方小飞机替换文件路径
+                smallPlaneArray[i].imgNode.src="./images/smallplaneboom.gif";
+            }
+        }
+    }
+}
+
+setInterval(crashCheck, 50);
+
