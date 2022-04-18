@@ -104,6 +104,7 @@ function playerPlaneProto(imgSrc, x, y, speed) {
     }
     this.shoot = function () {
         // 根据判断玩家的按键来执行发射子弹的事件
+        var newBullet = new bulletProto("./images/bullet1.png", parseInt(this.imgNode.style.left) + 30, parseInt(this.imgNode.style.top) - 10, 10);
     }
 }
 
@@ -127,6 +128,9 @@ document.body.onkeydown = function () {
     }
     if (e.keyCode == 40) {
         dowmBtn = true;
+    }
+    if (e.keyCode == 32) {
+        player.shoot();
     }
 }
 
@@ -164,3 +168,24 @@ function ctrlPlay() {
 // 30 毫秒监听一次是否按下键盘
 setInterval(ctrlPlay, 30);
 
+/**
+ * 子弹模板
+ */
+function bulletProto(imgSrc, x, y, speed) {
+    this.imgNode = document.createElement("img");
+    this.imgSrc = imgSrc;
+    this.x = x;
+    this.y = y;
+    this.speed = speed;
+    this.init = function () {
+        this.imgNode.src = this.imgSrc;
+        this.imgNode.style.position = "absolute";
+        this.imgNode.style.left = this.x + "px";
+        this.imgNode.style.top = this.y + "px";
+        mainObj.appendChild(this.imgNode);
+    }
+    this.init();
+    this.move = function () {
+        this.imgNode.style.top = parseInt(this.imgNode.style.top) - this.speed + "px";
+    }
+}
