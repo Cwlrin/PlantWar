@@ -8,6 +8,18 @@ var upBtn = false;
 var dowmBtn = false;
 var leftBtn = false;
 var rightBtn = false;
+// 创建小飞机
+var smallPlaneTimer = setInterval(createSmallPlane, 1000);
+// 小飞机移动
+var planeMoveTimer = setInterval(smallPlaneMove, 50);
+// 子弹移动
+var bulletMoveTimer = setInterval(bulletMove, 10);
+// 30 毫秒监听一次是否按下键盘
+var ctrlPlayTimer = setInterval(ctrlPlay, 30);
+// 判断碰撞
+var crashTimer = setInterval(crashCheck, 50);
+// 玩家飞机创建
+var player = new playerPlaneProto("./images/myplane.gif", 50, 700, 10);
 // 杀敌数
 var killNum = document.getElementById("killNum");
 var killScore = document.getElementById("killScore");
@@ -45,7 +57,16 @@ function createSmallPlane() {
     smallPlaneArray.push(smallPlane);
 }
 
-setInterval(createSmallPlane, 1000);
+
+function myStopGame() {
+    var stop = document.getElementById("stop");
+    stop.style.display = "block";
+    clearInterval(smallPlaneTimer);
+    clearInterval(planeMoveTimer);
+    clearInterval(ctrlPlayTimer);
+    clearInterval(bulletMoveTimer);
+    clearInterval(crashTimer);
+}
 
 /**
  * 敌方小飞机移动
@@ -69,8 +90,6 @@ function smallPlaneMove() {
         }
     }
 }
-
-setInterval(smallPlaneMove, 50);
 
 /**
  * 创建玩家飞机
@@ -131,8 +150,6 @@ function playerPlaneProto(imgSrc, x, y, speed) {
     }
 }
 
-var player = new playerPlaneProto("./images/myplane.gif", 50, 700, 10);
-
 /**
  * 在 body 中按下键盘的时候 移动玩家飞机
  */
@@ -188,9 +205,6 @@ function ctrlPlay() {
     }
 }
 
-// 30 毫秒监听一次是否按下键盘
-setInterval(ctrlPlay, 30);
-
 /**
  * 子弹模板
  */
@@ -226,7 +240,6 @@ function bulletMove() {
     }
 }
 
-setInterval(bulletMove, 10);
 
 /**
  * 碰撞函数
@@ -259,5 +272,4 @@ function crashCheck() {
     }
 }
 
-setInterval(crashCheck, 50);
 
