@@ -3,11 +3,15 @@ var mainObj = document.getElementById("main");
 var smallPlaneArray = [];
 // 子弹数组
 var bullerArray = [];
+
 // 按键开关
 var upBtn = false;
 var dowmBtn = false;
 var leftBtn = false;
 var rightBtn = false;
+// 发射子弹状态
+var shootBtn = false;
+
 // 创建小飞机
 var smallPlaneTimer = setInterval(createSmallPlane, 1000);
 // 小飞机移动
@@ -20,9 +24,16 @@ var ctrlPlayTimer = setInterval(ctrlPlay, 30);
 var crashTimer = setInterval(crashCheck, 50);
 // 玩家飞机创建
 var player = new playerPlaneProto("./images/myplane.gif", 50, 700, 10);
+
 // 杀敌数
 var killNum = document.getElementById("killNum");
+// 分数
 var killScore = document.getElementById("killScore");
+
+// 音频
+var startMusic = document.getElementById("startMusic");
+var zdMusic = document.getElementById("zdMusic");
+startMusic.play();
 
 /**
  *  创建敌方小飞机
@@ -57,7 +68,9 @@ function createSmallPlane() {
     smallPlaneArray.push(smallPlane);
 }
 
-
+/**
+ * 暂停按钮
+ */
 function myStopGame() {
     var stop = document.getElementById("stop");
     stop.style.display = "block";
@@ -66,6 +79,7 @@ function myStopGame() {
     clearInterval(ctrlPlayTimer);
     clearInterval(bulletMoveTimer);
     clearInterval(crashTimer);
+    startMusic.pause();
 }
 
 /**
@@ -170,7 +184,7 @@ document.body.onkeydown = function () {
         dowmBtn = true;
     }
     if (e.keyCode == 32) {
-        player.shoot();
+        shootBtn = true;
     }
 }
 
@@ -188,6 +202,9 @@ document.body.onkeyup = function () {
     if (e.keyCode == 40) {
         dowmBtn = false;
     }
+    if (e.keyCode == 32) {
+        shootBtn = false;
+    }
 }
 
 function ctrlPlay() {
@@ -202,6 +219,10 @@ function ctrlPlay() {
     }
     if (dowmBtn == true) {
         player.moveDown();
+    }
+    if (shootBtn == true) {
+        player.shoot();
+        zdMusic.play();
     }
 }
 
