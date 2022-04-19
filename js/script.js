@@ -100,6 +100,32 @@ function continueGame() {
 }
 
 /**
+ * 重新游戏
+ */
+function newGame() {
+    stop.style.display = "none";
+    mainObj.removeChild(player.imgNode);
+    player = null;
+    for (var i = 0; i < smallPlaneArray.length; i++) {
+        mainObj.removeChild(smallPlaneArray[i].imgNode);
+    }
+    smallPlaneArray.splice(0, smallPlaneArray.length);
+    for (var i = 0; i < bullerArray; i++) {
+        mainObj.removeChild(bullerArray[i].imgNode);
+    }
+    bullerArray.splice(0, bullerArray.length);
+    killNum.innerHTML = "0";
+    killScore.innerHTML = "0";
+    player = new playerPlaneProto("./images/myplane.gif", 50, 700, 10);
+    smallPlaneTimer = setInterval(createSmallPlane, 1000);
+    planeMoveTimer = setInterval(smallPlaneMove, 50);
+    bulletMoveTimer = setInterval(bulletMove, 10);
+    ctrlPlayTimer = setInterval(ctrlPlay, 30);
+    crashTimer = setInterval(crashCheck, 50);
+    startMusic.play();
+}
+
+/**
  * 敌方小飞机移动
  */
 function smallPlaneMove() {
