@@ -33,6 +33,11 @@ var killScore = document.getElementById("killScore");
 // 音频
 var startMusic = document.getElementById("startMusic");
 var zdMusic = document.getElementById("zdMusic");
+
+// 界面
+var stop = document.getElementById("stop");
+
+
 startMusic.play();
 
 /**
@@ -72,7 +77,6 @@ function createSmallPlane() {
  * 暂停按钮
  */
 function myStopGame() {
-    var stop = document.getElementById("stop");
     stop.style.display = "block";
     clearInterval(smallPlaneTimer);
     clearInterval(planeMoveTimer);
@@ -80,6 +84,19 @@ function myStopGame() {
     clearInterval(bulletMoveTimer);
     clearInterval(crashTimer);
     startMusic.pause();
+}
+
+/**
+ * 继续游戏
+ */
+function continueGame() {
+    stop.style.display = "none";
+    smallPlaneTimer = setInterval(createSmallPlane, 1000);
+    planeMoveTimer = setInterval(smallPlaneMove, 50);
+    bulletMoveTimer = setInterval(bulletMove, 10);
+    ctrlPlayTimer = setInterval(ctrlPlay, 30);
+    crashTimer = setInterval(crashCheck, 50);
+    startMusic.play();
 }
 
 /**
